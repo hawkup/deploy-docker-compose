@@ -1,0 +1,24 @@
+php:
+  image: nmcteam/php56
+  volumes:
+    - ./build/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+    - ./www:/var/www
+  links:
+   - db
+web:
+  image: tutorial/nginx
+  ports:
+    - "8080:80"
+  volumes:
+    - ./www:/var/www
+    - ./build/default:/etc/nginx/sites-enabled/default
+  links:
+    - php
+db:
+  image: sameersbn/mysql
+  volumes:
+    - /var/lib/mysql
+  environment:
+    - DB_NAME=demoDb
+    - DB_USER=demoUser
+    - DB_PASS=demoPass
